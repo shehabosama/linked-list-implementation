@@ -28,10 +28,10 @@ public:
     void deleteEnd();
     void makeListEmpty();
     void print_list();
-    void updateData(const dataType&);
-    void retrieveData(dataType&) const;
+    bool search(const dataType&);
+    void updateData(const positionType& , const dataType&);
+    dataType retrieveData(const keyType&);
     void orderInsert();
-    bool search(const keyType&);
     void traverse();
 
 
@@ -216,6 +216,39 @@ void List< positionType,keyType ,  dataType>::print_list() {
         advance();
 }
 }
+template<class positionType,class keyType , class dataType>
+void List< positionType,keyType ,  dataType>::updateData(const positionType&pos , const dataType&d){
+    toSpecificPosition(pos);
+    cursor->data = d;
+}
+template<class positionType,class keyType , class dataType>
+dataType List< positionType,keyType ,  dataType>::retrieveData(const keyType&k){
+        toFirst();
+        bool isExists = false;
+        while(!listIsEmpty() && !curIsEmpty()){
+            if(k == cursor->key){
+                    isExists = true;
+                    break;
+            }
+            advance();
+        }
+        return (isExists)?cursor->data:"There is no user has like that index";
+
+}
+template<class positionType,class keyType , class dataType>
+bool List< positionType,keyType ,  dataType>::search(const dataType&d){
+    toFirst();
+        bool isExists = false;
+        while(!listIsEmpty() && !curIsEmpty()){
+            if(d == cursor->data){
+                isExists = true;
+            }
+        advance();
+    }
+    string strChick = (isExists)?" is exists":" is not exists";
+     cout<<d<< strChick<<endl;
+    return isExists;
+}
 int main()
 {
     List<int , int , string > list;
@@ -239,5 +272,14 @@ int main()
     list.inserNode(1,"shehab");
     list.inserNode(2,"osama");
     list.print_list();
+    cout<<"\n list size is : "<<list.listSize()<<endl;
+    list.search("fathi");
+    list.updateData(2 , "abo osama");
+    list.print_list();
+    list.updateData(1 , "elshosh");
+    list.print_list();
+    cout<<"\n"<<list.retrieveData(3)<<endl;
+
+
     return 0;
 }
