@@ -33,6 +33,7 @@ public:
     dataType retrieveData(const keyType&);
     void orderInsert();
     void traverse();
+    void reverse();
 
 
 private:
@@ -42,7 +43,7 @@ public:
     dataType data;
     node *next;
     };
-void display(node n);
+
     typedef node *NodePointer;
     NodePointer head , cursor , prev;
 
@@ -58,6 +59,23 @@ cursor = nullptr;
 prev = nullptr;
 }
 
+template<class positionType , class keyType , class dataType>
+void List<positionType , keyType , dataType>::reverse(){
+toFirst();
+prev = NULL;
+NodePointer next = NULL;
+cursor = head;
+
+while(cursor != NULL){
+    next = cursor->next;
+    cursor->next = prev;
+    prev = cursor;
+    cursor = next;
+}
+
+head = prev;
+
+}
 template<class positionType,class keyType , class dataType>
 List< positionType,keyType ,  dataType>::~List(){
 makeListEmpty();
@@ -271,6 +289,7 @@ int main()
     list.print_list();
     list.inserNode(1,"shehab");
     list.inserNode(2,"osama");
+    list.inserNode(3,"fathi");
     list.print_list();
     cout<<"\n list size is : "<<list.listSize()<<endl;
     list.search("fathi");
@@ -279,7 +298,8 @@ int main()
     list.updateData(1 , "elshosh");
     list.print_list();
     cout<<"\n"<<list.retrieveData(3)<<endl;
-
+    list.reverse();
+    list.print_list();
 
     return 0;
 }
